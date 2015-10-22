@@ -31,14 +31,18 @@
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/allir_drykkir_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Allir Drykkir"/>
+                android:text="Allir Drykkir"
+                android:onClick="onAllDrinksClick"/>
 
             <Button
+                android:id="@+id/leita_eftir_hraefni_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Leita eftir hráefni"/>
+                android:text="Leita eftir hráefni"
+                android:onClick="onSearchClick"/>
         </TableRow>
 
         <TableRow
@@ -46,13 +50,17 @@
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/barinn_minn_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Barinn minn"/>
+                android:text="Barinn minn"
+                android:onClick="onMyBarClick"/>
             <Button
+                android:id="@+id/komdu_mer_a_ovart_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Komdu mér á óvart"/>
+                android:text="Komdu mér á óvart"
+                android:onClick="onRandomClick"/>
 
         </TableRow>
 
