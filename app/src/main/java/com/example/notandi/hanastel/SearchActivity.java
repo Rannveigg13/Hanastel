@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +22,13 @@ import java.util.List;
  */
 public class SearchActivity extends MainActivity{
 
-    ArrayList<String> ingredients = new ArrayList<String>();
+    ArrayList<String> ingredients = new ArrayList<>();
     ArrayAdapter ingredientAdapter;
+    SelectedIngredientsAdapter selectedIngredientsAdapter;
     TextView searchBox;
 
-    String[] drinks = {"Sex on the beach", "Gin and Tonic", "White Russian",
-                        "Some fokking drink"};
+    String[] drinks = {"Vodki", "Gin", "Romm", "Appelsínusafi", "Sítróna", "Rjómi"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -33,11 +38,24 @@ public class SearchActivity extends MainActivity{
         searchBox = (TextView) findViewById(R.id.search_Box);
 
         AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.search_Box);
-        actv.setAdapter(new ArrayAdapter<String>(this, R.layout.autocomplete_list, drinks));
+        actv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drinks));
 
         ingredientAdapter = new ArrayAdapter<String>(this, R.layout.ingredient_list, ingredients);
         ListView ingr = (ListView) findViewById(R.id.ingredient_list);
-        ingr.setAdapter(ingredientAdapter);
+        //ingr.setAdapter(ingredientAdapter);
+
+        selectedIngredientsAdapter = new SelectedIngredientsAdapter(this,ingredients);
+        ingr.setAdapter(selectedIngredientsAdapter);
+
+        actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String ingredient = (String) parent.getItemAtPosition(position);
+                ingredients.add(ingredient);
+                selectedIngredientsAdapter.notifyDataSetChanged();
+                searchBox.setText("");
+            }
+        });
     }
 
     @Override
@@ -51,10 +69,10 @@ public class SearchActivity extends MainActivity{
     }
 
     public void chooseIngredient(View view){
-        /*
+/*
         TextView item = (TextView) findViewById(R.id.autocomplete_ingredient);
         Log.d("clickInfo", item.getText().toString());
-        */
+*/
         ingredients.add("Vodki");
         ingredients.add("Romm");
         Log.d("ingr", ingredients.toString());
