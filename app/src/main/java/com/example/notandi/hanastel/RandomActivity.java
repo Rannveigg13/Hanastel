@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
+import java.util.Random;
+
 /**
  * Created by Altaris on 23-Oct-15.
  */
@@ -17,6 +19,8 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
 
     Sensor accelerometer;
     SensorManager sm;
+
+    private String[] cocktails = {"The Juicy Lucy", "Sex on the beach", "Martini", "Volcano", "Sleipur Garpur"};
 
     private static final int SHAKE_THRESHOLD = 500;
     private long lastTime;
@@ -52,9 +56,13 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
 
             if (speed > SHAKE_THRESHOLD) {
                 Log.d("sensor", "shake detected w/ speed: " + speed);
-                Toast.makeText(this, "shake detected w/ speed: " + speed + " and diffTime: " + diffTime, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "shake detected w/ speed: " + speed + " and diffTime: " + diffTime, Toast.LENGTH_SHORT).show();
 
                 // TODO: call function where we get random drink
+                Random r = new Random();
+                int i = r.nextInt(5) + 0;
+                Log.d("tag", String.valueOf(i));
+                Toast.makeText(this, cocktails[i], Toast.LENGTH_SHORT).show();
 
             }
             last_x = x;
