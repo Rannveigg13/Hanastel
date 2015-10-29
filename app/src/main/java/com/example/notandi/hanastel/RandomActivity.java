@@ -5,8 +5,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.Random;
@@ -19,6 +23,8 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
 
     Sensor accelerometer;
     SensorManager sm;
+    ImageView imageView;
+    Animation animRotate;
 
     private String[] cocktails = {"The Juicy Lucy", "Sex on the beach", "Martini", "Volcano", "Sleipur Garpur"};
 
@@ -36,6 +42,9 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
         sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+
+        imageView = (ImageView)findViewById(R.id.animatedImage);
+        animRotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -60,11 +69,23 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
                 //Toast.makeText(this, "shake detected w/ speed: " + speed + " and diffTime: " + diffTime, Toast.LENGTH_SHORT).show();
 
                 // TODO: call function where we get random drink
-                Random r = new Random();
-                int i = r.nextInt(5) + 0;
+
                 //Log.d("tag ", String.valueOf(i));
-                Toast.makeText(this, cocktails[i], Toast.LENGTH_SHORT).show();
-                Log.d("\ncocktail: ", cocktails[i] + "\n");
+                Random r = new Random();
+                final int i = r.nextInt(5) + 0;
+
+                // Execute code after 1 sec
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+
+                        int d = i;
+                        Log.d("\ncocktail: ", cocktails[d] + "\n");
+                        imageView.startAnimation(animRotate);
+                        Toast.makeText(getApplicationContext(), cocktails[d], Toast.LENGTH_SHORT).show();
+                    }
+                }, 1000);
+
 
             }
             last_x = x;
