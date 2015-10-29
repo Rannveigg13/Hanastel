@@ -78,7 +78,7 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-
+//
                         int d = i;
                         Log.d("\ncocktail: ", cocktails[d] + "\n");
                         imageView.startAnimation(animRotate);
