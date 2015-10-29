@@ -1,21 +1,63 @@
 package com.example.notandi.hanastel;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("mytag", "before");
+        DatabaseHelper myDbHelper = new DatabaseHelper(this);
+
+        try{
+            myDbHelper.createDataBase();
+            Log.d("mytag", "creating database");
+        }
+        catch (IOException ioe) {
+            Log.d("mytag","exception creating database");
+            throw new Error("Unable to create database");
+        }
+
+        try {
+            Log.d("mytag", "opening database");
+            myDbHelper.openDataBase();
+            //myDbHelper.close();
+            //myDbHelper.openDataBase();
+        }
+        catch (SQLiteException sqle) {
+            Log.d("mytag", "exception opening database");
+            throw sqle;
+        }
+
+        myDbHelper.getStuff();
+        /*Cursor c = myDbHelper.showAllTables();
+        if (c.moveToFirst())
+        {
+            do{
+                Log.d("ITEMS/TABLES", c.getString(0));
+
+            }while (c.moveToNext());
+        }*/
     }
 
     @Override
