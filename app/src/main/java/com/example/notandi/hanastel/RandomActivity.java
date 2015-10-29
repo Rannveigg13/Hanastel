@@ -26,6 +26,7 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
     private long lastTime;
     private float x, y, z;
     private float last_x, last_y, last_z;
+    //private boolean isShaking = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -55,14 +56,15 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
             float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
 
             if (speed > SHAKE_THRESHOLD) {
-                Log.d("sensor", "shake detected w/ speed: " + speed);
+                //Log.d("sensor", "shake detected w/ speed: " + speed);
                 //Toast.makeText(this, "shake detected w/ speed: " + speed + " and diffTime: " + diffTime, Toast.LENGTH_SHORT).show();
 
                 // TODO: call function where we get random drink
                 Random r = new Random();
                 int i = r.nextInt(5) + 0;
-                Log.d("tag", String.valueOf(i));
+                //Log.d("tag ", String.valueOf(i));
                 Toast.makeText(this, cocktails[i], Toast.LENGTH_SHORT).show();
+                Log.d("\ncocktail: ", cocktails[i] + "\n");
 
             }
             last_x = x;
