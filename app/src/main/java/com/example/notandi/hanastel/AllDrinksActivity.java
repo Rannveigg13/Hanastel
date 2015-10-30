@@ -1,11 +1,14 @@
 package com.example.notandi.hanastel;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,15 +49,31 @@ public class AllDrinksActivity extends MainActivity {
         adapter = new AllDrinksAdapter(this, cocktails);
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CocktailRecipe cr = (CocktailRecipe) parent.getItemAtPosition(position);
+                onDrinkDetailClick(view, cr);
+                //selectedIngredientsAdapter.notifyDataSetChanged();
+                //searchBox.setText("");
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        //TODO: Set state to as before clicking on details
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
+    }
+
+    public void onDrinkDetailClick(View view, CocktailRecipe cr) {
+        Intent intent = new Intent(this, DrinkDetailActivity.class);
+        intent.putExtra("clickedCocktail", cr);
+        startActivity(intent);
     }
 }

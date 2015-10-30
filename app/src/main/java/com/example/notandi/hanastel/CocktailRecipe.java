@@ -1,9 +1,12 @@
 package com.example.notandi.hanastel;
 
+import java.io.Serializable;
+
 /**
  * Created by SigurdurMarAtlason on 29/10/15.
  */
-public class CocktailRecipe {
+@SuppressWarnings("serial")
+public class CocktailRecipe implements Serializable {
 
     private String name;
     private String imgPath;
