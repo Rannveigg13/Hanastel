@@ -8,7 +8,6 @@
         android:id="@+id/drink_detail_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/cocktail"
         android:adjustViewBounds="true"
         android:cropToPadding="false" />
 
@@ -23,7 +22,6 @@
             android:id="@+id/drink_detail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Góður drykkur, gott líf."
             android:textSize="24dp"
             android:textStyle="bold" />
 
@@ -31,28 +29,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/label_ingredients"
-            android:text="Hráefni:"
+            android:text="@string/drink_detail_ingredients"
             android:textSize="16dp"
             android:layout_marginTop="20dp" />
-        <TextView
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/drink_detail_ingredients"
-            android:text="Vodka: 100ml\Appelsínusafi 300ml\n"
+            android:id="@+id/drink_detail_ingredients_list"
             android:textStyle="italic"
             android:layout_marginTop="4dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/label_description"
-            android:text="Lýsing:"
+            android:text="@string/drink_detail_description"
             android:textSize="16dp"
             android:layout_marginTop="10dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/drink_detail_description"
-            android:text="Setjið appelsínusafa í glas og vodka í glas og drekktu tík"
             android:textStyle="italic"
             android:layout_marginTop="4dp" />
     </LinearLayout>

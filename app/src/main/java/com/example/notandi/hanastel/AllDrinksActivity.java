@@ -41,8 +41,23 @@ public class AllDrinksActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_drinks);
+
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+        int i = 0;
         for(String name : cocktailName){
-            cocktails.add(new CocktailRecipe(name, "picture.jpg"));
+            CocktailRecipe cr = new CocktailRecipe();
+            cr.setName(name);
+            cr.setDescription(name + "description");
+            ArrayList<Ingredient> temp = new ArrayList<>();
+            for(Ingredient ing : ingredients){
+                temp.add(ing);
+            }
+            cr.setIngredients(temp);
+            cr.setImgName("cocktail");
+            cocktails.add(cr);
+            ingredients.add(new Ingredient(i, "Ingredient " + String.valueOf(i), "100 ml"));
+            i++;
         }
 
         listView = (ListView) findViewById(R.id.drinks);

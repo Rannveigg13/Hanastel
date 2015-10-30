@@ -33,7 +33,7 @@ public class AllDrinksAdapter extends ArrayAdapter<CocktailRecipe> {
         nameView.setText(cr.getName());
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.row_image);
-        imageView.setImageResource(R.drawable.cocktail);
+        imageView.setImageResource(cr.getImgResourceId(getContext()));
         //recipes.get(position).getImgPath()
 
         return convertView;
