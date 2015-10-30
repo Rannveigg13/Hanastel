@@ -76,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
         myDbHelper = new DatabaseHelper(this);
         databaseSet = false;
         setupDatabase();
+
+
+        /*Cursor c = myDbHelper.showAllTables();
+        if (c.moveToFirst())
+        {
+            do{
+                Log.d("ITEMS/TABLES", c.getString(0));
+
+            }while (c.moveToNext());
+        }*/
     }
 
     private void setupDatabase(){

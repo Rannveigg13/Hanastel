@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class SearchActivity extends MainActivity{
 
+    String param = "Name";
     ArrayList<String> ingredients = new ArrayList<>();
     ArrayAdapter ingredientAdapter;
     SelectedIngredientsAdapter selectedIngredientsAdapter;
@@ -29,6 +30,7 @@ public class SearchActivity extends MainActivity{
     Button searchButton;
 
     String[] drinks = {"Vodki", "Gin", "Romm", "Appelsínusafi", "Sítróna", "Rjómi"};
+    //ArrayList<String> drinks = new ArrayList<>(myDbHelper.getStuff(param));
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
