@@ -19,11 +19,13 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     public DatabaseHelper myDbHelper;
     public boolean databaseSet;
+    static Handler handler;
 
     Runnable setDbRunnable = new Runnable() {
         public void run() {
@@ -39,14 +41,13 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Log.d("mytag", "opening database");
                 myDbHelper.openDataBase();
-                databaseSet = true;
             }
             catch (SQLiteException sqle) {
                 Log.d("mytag", "exception opening database");
                 throw sqle;
             }
 
-            myDbHelper.getStuff();
+            //myDbHelper.getStuff();
             Message message = handler.obtainMessage();
             Bundle bundle = new Bundle();
             bundle.putString("databaseThread", "Set up database");
@@ -55,20 +56,21 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg){
-            Bundle bundle = msg.getData();
-            String string = bundle.getString("databaseThread");
-            Log.d("thread", string);
-            Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();
-        }
-    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg){
+                Bundle bundle = msg.getData();
+                String string = bundle.getString("databaseThread");
+                Log.d("thread", string);
+            }
+        };
 
         Log.d("mytag", "before");
         myDbHelper = new DatabaseHelper(this);
@@ -81,15 +83,14 @@ public class MainActivity extends AppCompatActivity {
         {
             do{
                 Log.d("ITEMS/TABLES", c.getString(0));
+
             }while (c.moveToNext());
         }*/
     }
 
     private void setupDatabase(){
-
         Thread mythread = new Thread(setDbRunnable);
         mythread.start();
-
     }
 
     @Override
