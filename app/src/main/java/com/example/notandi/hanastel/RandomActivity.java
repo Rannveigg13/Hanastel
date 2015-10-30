@@ -28,7 +28,7 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
 
     private String[] cocktails = {"The Juicy Lucy", "Sex on the beach", "Martini", "Volcano", "Sleipur Garpur"};
 
-    private static final int SHAKE_THRESHOLD = 500;
+    private static final int SHAKE_THRESHOLD = 300;
     private long lastTime;
     private float x, y, z;
     private float last_x, last_y, last_z;
@@ -53,8 +53,8 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
     public void onSensorChanged(SensorEvent event) {
         long curTime = System.currentTimeMillis();
 
-        // only allow one update every 400ms.
-        if ((curTime - lastTime) > 400) {
+        // only allow one update every 450ms.
+        if ((curTime - lastTime) > 450) {
             long diffTime = (curTime - lastTime);
             lastTime = curTime;
 
@@ -74,7 +74,7 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
                 Random r = new Random();
                 final int i = r.nextInt(5) + 0;
 
-                // Execute code after 1 sec
+                // Execute code after 0.3 sec
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
@@ -84,7 +84,7 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
                         imageView.startAnimation(animRotate);
                         Toast.makeText(getApplicationContext(), cocktails[d], Toast.LENGTH_SHORT).show();
                     }
-                }, 1000);
+                }, 300);
 
 
             }
