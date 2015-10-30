@@ -60,7 +60,6 @@ public class RandomActivity extends MainActivity {
         imageView.clearAnimation();
         Random r = new Random();
         CocktailRecipe cr = new CocktailRecipe();
-x
         final int i = r.nextInt(5);
 
         cr.setName(cocktails[i]);
