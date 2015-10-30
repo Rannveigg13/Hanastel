@@ -89,6 +89,7 @@ public class AllDrinksActivity extends MainActivity {
     public void onDrinkDetailClick(View view, CocktailRecipe cr) {
         Intent intent = new Intent(this, DrinkDetailActivity.class);
         intent.putExtra("clickedCocktail", cr);
+        intent.putExtra("isRandom", false);
         startActivity(intent);
     }
 }

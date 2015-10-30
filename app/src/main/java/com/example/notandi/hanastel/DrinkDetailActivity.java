@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class DrinkDetailActivity extends AllDrinksActivity {
 
     CocktailRecipe cr;
+    Boolean isRandom = false;
     TextView drinkName;
     ImageView drinkImage;
     ListView drinkIngredients;
@@ -36,7 +37,11 @@ public class DrinkDetailActivity extends AllDrinksActivity {
         adapter = new DrinkDetailIngredientsAdapter(this, cr.getIngredientsList());
 
         drinkName.setText(cr.getName());
-        drinkIngredients.setAdapter(adapter);
+
+        isRandom = (Boolean)i.getSerializableExtra("isRandom");
+        if (!isRandom) {
+            drinkIngredients.setAdapter(adapter);
+        }
         drinkDescription.setText(cr.getDescription());
         drinkImage.setImageResource(cr.getImgResourceId(getApplicationContext()));
     }

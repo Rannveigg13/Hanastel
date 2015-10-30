@@ -1,5 +1,6 @@
 package com.example.notandi.hanastel;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -19,7 +21,7 @@ import java.util.Random;
  * Created by Altaris on 23-Oct-15.
  */
 
-public class RandomActivity extends MainActivity implements SensorEventListener {
+public class RandomActivity extends MainActivity {
 
     Sensor accelerometer;
     SensorManager sm;
@@ -39,24 +41,47 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_random);
 
-        sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        //sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        //accelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //sm.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         imageView = (ImageView)findViewById(R.id.animatedImage);
         animRotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        imageView.startAnimation(animRotate);
     }
 
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        imageView.startAnimation(animRotate);
     }
 
-    public void onSensorChanged(SensorEvent event) {
+    public void onRandomButtonClick(View view){
+        imageView.clearAnimation();
+        Random r = new Random();
+        CocktailRecipe cr = new CocktailRecipe();
+
+        final int i = r.nextInt(5);
+
+        cr.setName(cocktails[i]);
+        cr.setImgName("cocktail");
+        cr.setDescription("blanda bara öllu saman");
+
+        Intent intent = new Intent(getApplicationContext(), DrinkDetailActivity.class);
+        intent.putExtra("clickedCocktail", cr);
+        intent.putExtra("isRandom", true);
+        startActivity(intent);
+    }
+
+    /*public void onSensorChanged(SensorEvent event) {
         long curTime = System.currentTimeMillis();
 
         // only allow one update every 450ms.
-        if ((curTime - lastTime) > 450) {
+        if (i == 0 || (curTime - lastTime) > 450) {
             long diffTime = (curTime - lastTime);
             lastTime = curTime;
+            Random r = new Random();
+            CocktailRecipe cr = new CocktailRecipe();
 
             x = event.values[0];
             y = event.values[1];
@@ -71,30 +96,29 @@ public class RandomActivity extends MainActivity implements SensorEventListener 
                 // TODO: call function where we get random drink
 
                 //Log.d("tag ", String.valueOf(i));
-                Random r = new Random();
-                final int i = r.nextInt(5) + 0;
 
-                // Execute code after 0.3 sec
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
+                final int i = r.nextInt(5);
 
-                        int d = i;
-                        Log.d("\ncocktail: ", cocktails[d] + "\n");
+
+
+                        Log.d("\ncocktail: ", cocktails[i] + "\n");
                         imageView.startAnimation(animRotate);
-                        Toast.makeText(getApplicationContext(), cocktails[d], Toast.LENGTH_SHORT).show();
-                    }
-                }, 300);
+                        Toast.makeText(getApplicationContext(), cocktails[i], Toast.LENGTH_SHORT).show();
 
+                        cr.setName(cocktails[i]);
+                        cr.setImgName("cocktail");
+                        cr.setDescription("blanda bara öllu saman");
+
+                        Intent intent = new Intent(getApplicationContext(), DrinkDetailActivity.class);
+                        intent.putExtra("clickedCocktail", cr);
+                        intent.putExtra("isRandom", true);
+                        startActivity(intent);
 
             }
             last_x = x;
             last_y = y;
             last_z = z;
+            i++;
         }
-
-        //Log.d("bla","x: " + event.values[0] + "\ny: " + event.values[1] + "\nz: " + event.values[2]);
-        //Toast.makeText(this, "x: " + event.values[0] + "\ny: " + event.values[1] + "\nz: " + event.values[2], Toast.LENGTH_SHORT).show();
-
-    }
+    }*/
 }
