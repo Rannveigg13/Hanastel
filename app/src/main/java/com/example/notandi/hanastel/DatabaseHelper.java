@@ -37,7 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void createDataBase() throws IOException {
         //THIS MAY NOT WORK, IF ENCOUNTING ERROR WITH DB, CHECK IF THIS IS RIGHT
-        boolean dbExist = checkDataBase();
+        boolean dbExist = false;//checkDataBase();
         if(dbExist){
             //do nothing - database already exist
         }
@@ -113,7 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     public ArrayList<String> getStuff() {
-        String selectQuery = "SELECT * FROM Cocktails";
+        String selectQuery = "SELECT * FROM Ingredients";
         Cursor c = myDataBase.rawQuery(selectQuery, null);
 
         ArrayList<String> itemArray = new ArrayList<>();

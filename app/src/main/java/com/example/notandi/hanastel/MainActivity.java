@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,12 +16,54 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    public DatabaseHelper myDbHelper;
+    public boolean databaseSet;
 
+    Runnable setDbRunnable = new Runnable() {
+        public void run() {
+            try{
+                myDbHelper.createDataBase();
+                Log.d("mytag", "creating database");
+            }
+            catch (IOException ioe) {
+                Log.d("mytag","exception creating database");
+                throw new Error("Unable to create database");
+            }
+
+            try {
+                Log.d("mytag", "opening database");
+                myDbHelper.openDataBase();
+                databaseSet = true;
+            }
+            catch (SQLiteException sqle) {
+                Log.d("mytag", "exception opening database");
+                throw sqle;
+            }
+
+            myDbHelper.getStuff();
+            Message message = handler.obtainMessage();
+            Bundle bundle = new Bundle();
+            bundle.putString("databaseThread", "Set up database");
+            message.setData(bundle);
+            handler.sendMessage(message);
+        }
+    };
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            Bundle bundle = msg.getData();
+            String string = bundle.getString("databaseThread");
+            Log.d("thread", string);
+            Toast.makeText(getApplicationContext(), string, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,29 +71,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.d("mytag", "before");
-        DatabaseHelper myDbHelper = new DatabaseHelper(this);
+        myDbHelper = new DatabaseHelper(this);
+        databaseSet = false;
+        setupDatabase();
 
-        try{
-            myDbHelper.createDataBase();
-            Log.d("mytag", "creating database");
-        }
-        catch (IOException ioe) {
-            Log.d("mytag","exception creating database");
-            throw new Error("Unable to create database");
-        }
 
-        try {
-            Log.d("mytag", "opening database");
-            myDbHelper.openDataBase();
-            //myDbHelper.close();
-            //myDbHelper.openDataBase();
-        }
-        catch (SQLiteException sqle) {
-            Log.d("mytag", "exception opening database");
-            throw sqle;
-        }
-
-        myDbHelper.getStuff();
         /*Cursor c = myDbHelper.showAllTables();
         if (c.moveToFirst())
         {
@@ -58,6 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
             }while (c.moveToNext());
         }*/
+    }
+
+    private void setupDatabase(){
+
+        Thread mythread = new Thread(setDbRunnable);
+        mythread.start();
+
     }
 
     @Override
