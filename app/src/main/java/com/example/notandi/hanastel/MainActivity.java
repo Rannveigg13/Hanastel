@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         {
             do{
                 Log.d("ITEMS/TABLES", c.getString(0));
-
             }while (c.moveToNext());
         }*/
     }
