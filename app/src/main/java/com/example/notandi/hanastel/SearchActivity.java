@@ -26,6 +26,7 @@ public class SearchActivity extends MainActivity{
     ArrayAdapter ingredientAdapter;
     SelectedIngredientsAdapter selectedIngredientsAdapter;
     TextView searchBox;
+    Button searchButton;
 
     String[] drinks = {"Vodki", "Gin", "Romm", "Appelsínusafi", "Sítróna", "Rjómi"};
 
@@ -36,6 +37,8 @@ public class SearchActivity extends MainActivity{
 
         // setup
         searchBox = (TextView) findViewById(R.id.search_Box);
+        searchButton = (Button) findViewById(R.id.search_button);
+
 
         AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.search_Box);
         actv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drinks));
@@ -68,15 +71,27 @@ public class SearchActivity extends MainActivity{
         return false;
     }
 
-    public void chooseIngredient(View view){
-/*
-        TextView item = (TextView) findViewById(R.id.autocomplete_ingredient);
-        Log.d("clickInfo", item.getText().toString());
-*/
-        ingredients.add("Vodki");
-        ingredients.add("Romm");
-        Log.d("ingr", ingredients.toString());
-        ingredientAdapter.notifyDataSetChanged();
-        searchBox.setText("");
+    public void onSearchClick(View view){
+        Runnable runnable = new Runnable() {
+            public void run() {
+
+                long endTime = System.currentTimeMillis() +
+                        20*1000;
+
+                while (System.currentTimeMillis() < endTime) {
+                    synchronized (this) {
+                        try {
+                            wait(endTime -
+                                    System.currentTimeMillis());
+                        } catch (Exception e) {}
+                    }
+
+                }
+                handler.sendEmptyMessage(0);
+            }
+        };
+
+        Thread mythread = new Thread(runnable);
+        mythread.start();
     }
 }
